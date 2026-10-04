@@ -264,6 +264,8 @@ The project may be used, modified, distributed, and incorporated into other soft
 
 Third-party dependencies and their respective licenses must be documented separately as they are introduced into the project.
 
+The project does not currently include a `NOTICE` file. A `NOTICE` file may be added later if required by the project or by third-party components incorporated into the distribution.
+
 ## Open Decisions
 
 The following decisions remain open:
@@ -279,10 +281,13 @@ The following decisions remain open:
 * Image-processing backend.
 * Parameter-file format.
 * Distribution and packaging strategy.
+* Dependency management strategy.
+* Minimum supported operating-system versions.
+* Continuous integration strategy.
 
 ## Current Phase
 
-Phase 0 — Project Definition and Architecture
+**Phase 0 — Project Definition and Architecture**
 
 ### Current objectives
 
@@ -292,10 +297,13 @@ Phase 0 — Project Definition and Architecture
 4. Define the initial repository structure.
 5. Establish the development and testing workflow.
 6. Document the project license and licensing strategy.
+7. Define the dependency and third-party licensing strategy.
+8. Establish minimum supported platform versions.
+9. Define the initial continuous integration strategy.
 
 ## Next Phase
 
-Phase 1 — Mathematical Model of Chromaticity
+**Phase 1 — Mathematical Model of Chromaticity**
 
 The next phase will investigate how chromaticity should be represented and measured for the specific problem of monochrome document photographs and scans.
 
@@ -322,6 +330,16 @@ An algorithm optimized for a small set of document photographs may fail under di
 Adding spatial filters and multiple heuristics too early could make the algorithm difficult to explain, test, and reproduce.
 
 The initial model should therefore remain as simple and measurable as possible.
+
+### Risk 5 — Large-image performance
+
+Document photographs and scans may contain tens or hundreds of millions of pixels.
+
+The application must remain responsive while displaying and processing large images without requiring excessive memory.
+
+### Risk 6 — Cross-platform differences
+
+The application must produce consistent results across Windows, macOS, and Linux while accounting for differences in graphics APIs, image codecs, file systems, and distribution mechanisms.
 
 ## Development Principle
 
