@@ -85,6 +85,58 @@ The application should also be designed so that the same Core Library can later 
 * scripts;
 * other applications.
 
+## Technology Direction
+
+The initial implementation will use the following technology stack:
+
+```text
+Programming language:
+C++
+
+GUI framework:
+Qt 6
+
+Build system:
+CMake
+```
+
+This technology stack is selected for the initial implementation based on the project's requirements for:
+
+* cross-platform desktop operation;
+* processing of large images;
+* pixel-level image processing;
+* responsive image visualization;
+* zoom and pan;
+* integration between the GUI and the Core Library;
+* long-term maintainability.
+
+C++ is selected as the primary implementation language because the application is expected to process large images and perform potentially intensive pixel-level operations while maintaining a responsive graphical interface.
+
+Qt 6 is selected as the GUI framework because it provides mature cross-platform desktop application infrastructure for Windows, macOS, and Linux and integrates naturally with the selected C++ implementation language.
+
+CMake is selected as the build system because it provides cross-platform build configuration and is suitable for C++ development and continuous integration.
+
+The Core Library should use standard C++ wherever practical and should remain independent from Qt-specific GUI concepts.
+
+The intended dependency direction is:
+
+```text
+GUI (Qt 6)
+    │
+    ▼
+Core Library (C++)
+    │
+    ▼
+Image Processing Backend
+    │
+    ▼
+Image I/O
+```
+
+Qt-specific GUI concepts should not be introduced into the Core Library unless there is a clear technical reason to do so.
+
+This technology selection applies to the initial implementation and may be revisited later only if implementation or experimental evidence demonstrates a substantial technical reason to change it.
+
 ## Algorithm — Current Hypothesis
 
 The initial investigation will use a simple chromaticity measure:
@@ -207,49 +259,7 @@ ImageProcessor
 
 Other backends may be added later.
 
-## Technology Direction
-
-The project will use the following technology stack for the initial implementation:
-
-```text
-Programming language:
-C++
-
-GUI framework:
-Qt 6
-
-Build system:
-CMake
-```
-
-### Rationale
-
-C++ is selected as the primary programming language because the application is expected to process large images, perform pixel-level operations, and maintain a responsive graphical interface while working with potentially large document files.
-
-Qt 6 is selected as the GUI framework because it provides mature cross-platform support for Windows, macOS, and Linux, together with the application, windowing, input, graphics, and image-related infrastructure required by the project.
-
-CMake is selected as the build system because it provides cross-platform build configuration and integrates well with C++ development environments and continuous integration systems.
-
-The architecture will keep the Core Library independent from the GUI framework wherever practical.
-
-The intended dependency direction is:
-
-```text
-GUI (Qt 6)
-    │
-    ▼
-Core Library (C++)
-    │
-    ▼
-Image Processing Backend
-    │
-    ▼
-Image I/O
-```
-
-Qt-specific GUI concepts should not be introduced into the Core Library unless technically necessary.
-
-This technology selection is considered an architectural decision for the initial implementation. It may be revisited later if experimental or implementation evidence demonstrates a substantial technical reason to do so.
+The choice of image-processing backend remains open and will be evaluated separately from the Core architecture.
 
 ## GUI Technology
 
@@ -257,19 +267,20 @@ Qt 6 is the selected GUI framework for the initial implementation.
 
 The selection is based on:
 
-* cross-platform support;
-* large-image visualization requirements;
+* large image handling;
 * zoom and pan requirements;
+* cross-platform desktop support;
 * integration with the C++ Core Library;
-* mature desktop application infrastructure;
+* mature application infrastructure;
 * Windows support;
 * macOS support;
 * Linux support;
-* long-term maintainability.
+* maintainability;
+* open-source ecosystem.
 
-Other frameworks previously considered, including Qt/Python and Avalonia/.NET, are not selected for the initial implementation.
+Qt/Python and Avalonia/.NET were considered as alternatives but are not selected for the initial implementation.
 
-The GUI framework is an implementation layer and must not define the mathematical model or processing logic of Dechroma.
+The GUI framework must remain an implementation layer and must not define the mathematical model or processing logic of Dechroma.
 
 ## Current Decisions
 
@@ -305,8 +316,6 @@ The project may be used, modified, distributed, and incorporated into other soft
 
 Third-party dependencies and their respective licenses must be documented separately as they are introduced into the project.
 
-The project does not currently include a `NOTICE` file. A `NOTICE` file may be added later if required by the project or by third-party components incorporated into the distribution.
-
 ### DEC-006 — Initial technology stack
 
 The initial Dechroma implementation will use:
@@ -325,14 +334,14 @@ CMake is the build system.
 
 The Core Library will remain independent from Qt-specific GUI concepts wherever practical.
 
-This decision applies to the initial implementation and may only be revisited if technical evidence demonstrates a substantial reason to change the technology stack.
+This decision applies to the initial implementation and may only be revisited if technical or experimental evidence demonstrates a substantial reason to change the technology stack.
 
 ## Open Decisions
 
 The following decisions remain open:
 
 * Image representation.
-* Color model.
+* Color model and color-space conventions.
 * Final chromaticity metric.
 * White-reference estimation method.
 * Decision-curve representation.
@@ -344,6 +353,8 @@ The following decisions remain open:
 * Minimum supported operating-system versions.
 * Continuous integration strategy.
 
+The final chromaticity metric, white-reference method, decision curve, and neutralization algorithm are research questions for Phase 1 rather than technology-selection decisions.
+
 ## Current Phase
 
 **Phase 0 — Project Definition and Architecture**
@@ -351,14 +362,14 @@ The following decisions remain open:
 ### Current objectives
 
 1. Define the technical architecture.
-2. Define and document the development technology.
-3. Define the Core/GUI/backend interfaces.
-4. Define the initial repository structure.
+2. Define the Core/GUI/backend interfaces.
+3. Define the initial repository structure.
+4. Define the image representation and memory strategy.
 5. Establish the development and testing workflow.
-6. Document the project license and licensing strategy.
-7. Define the dependency and third-party licensing strategy.
-8. Establish minimum supported platform versions.
-9. Define the initial continuous integration strategy.
+6. Define the dependency and third-party licensing strategy.
+7. Establish minimum supported platform versions.
+8. Define the initial continuous integration strategy.
+9. Document the architectural decisions required before implementation begins.
 
 ## Next Phase
 
@@ -367,6 +378,8 @@ The following decisions remain open:
 The next phase will investigate how chromaticity should be represented and measured for the specific problem of monochrome document photographs and scans.
 
 The research should compare simple RGB-based measures with alternative color representations and determine which characteristics are most useful for distinguishing unwanted chromaticity from legitimate dark content.
+
+The research must also establish a test methodology capable of measuring both unwanted chromaticity removal and preservation of legitimate black content.
 
 ## Known Risks
 
@@ -432,6 +445,12 @@ Project Status document created.
 
 Apache License 2.0 selected as the project license.
 
+Initial technology stack selected:
+
+* C++;
+* Qt 6;
+* CMake.
+
 Repository structure not yet implemented.
 
-GitHub workflow not yet established.
+GitHub development workflow not yet established.
