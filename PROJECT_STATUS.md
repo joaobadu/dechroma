@@ -85,41 +85,6 @@ The application should also be designed so that the same Core Library can later 
 * scripts;
 * other applications.
 
-## Technology Direction
-
-The current recommended technology direction is:
-
-```text
-Programming language:
-C++
-
-GUI framework:
-Qt 6
-
-Build system:
-CMake
-
-Architecture:
-GUI → Core Library → Image Processing Backend
-```
-
-This direction is intended to provide a balance between:
-
-* native application performance;
-* efficient processing of large images;
-* responsive image visualization;
-* Windows support;
-* macOS support;
-* Linux support;
-* long-term maintainability;
-* access to a mature cross-platform GUI framework.
-
-The Core Library should use standard C++ wherever practical and should not depend on Qt-specific GUI concepts unless there is a clear technical reason to do so.
-
-Qt should primarily provide the application and graphical interface infrastructure.
-
-The final technology selection will be formally evaluated during Phase 0.
-
 ## Algorithm — Current Hypothesis
 
 The initial investigation will use a simple chromaticity measure:
@@ -242,32 +207,18 @@ ImageProcessor
 
 Other backends may be added later.
 
-The choice of ImageMagick as the initial backend will be evaluated during Phase 0 based on:
-
-* TIFF support;
-* large-image handling;
-* pixel access;
-* color management;
-* performance;
-* memory usage;
-* licensing;
-* Windows support;
-* macOS support;
-* Linux support;
-* distribution requirements.
-
 ## GUI Technology
 
-Qt 6 is the current recommended GUI framework.
+The GUI framework has not yet been selected.
 
-The alternatives considered during Phase 0 include:
+Candidates currently under consideration include:
 
-* Qt 6 / C++;
-* Qt 6 / Python;
-* Avalonia / .NET;
+* Qt/C++;
+* Qt/Python;
+* Avalonia/.NET;
 * other suitable cross-platform frameworks.
 
-The evaluation should consider:
+The decision should consider:
 
 * large image handling;
 * zoom and pan performance;
@@ -277,10 +228,7 @@ The evaluation should consider:
 * Linux support;
 * distribution;
 * maintenance;
-* open-source ecosystem;
-* integration with the C++ Core Library.
-
-The current preference is Qt 6 with C++ because the project requires both a responsive image viewer and efficient access to large image data.
+* open-source ecosystem.
 
 ## Current Decisions
 
@@ -300,24 +248,28 @@ ImageMagick may be used as a backend, but it must not define the Core's architec
 
 The application must provide mask and diagnostic views so the user can inspect the algorithm's decisions.
 
-### DEC-005 — Provisional technology direction
+### DEC-005 — Project license
 
-The current recommended technology direction is:
+Dechroma is licensed under the Apache License, Version 2.0.
+
+The SPDX identifier for the project license is:
 
 ```text
-C++
-Qt 6
-CMake
+Apache-2.0
 ```
 
-This is a provisional architectural direction and must be formally evaluated and confirmed during Phase 0.
+The complete license text is stored in the repository root as `LICENSE`.
+
+The project may be used, modified, distributed, and incorporated into other software according to the terms of the Apache License, Version 2.0.
+
+Third-party dependencies and their respective licenses must be documented separately as they are introduced into the project.
 
 ## Open Decisions
 
 The following decisions remain open:
 
-* Final confirmation of programming language.
-* Final confirmation of GUI framework.
+* Final programming language.
+* GUI framework.
 * Image representation.
 * Color model.
 * Final chromaticity metric.
@@ -325,33 +277,25 @@ The following decisions remain open:
 * Decision-curve representation.
 * Neutralization algorithm.
 * Image-processing backend.
-* Project license.
 * Parameter-file format.
 * Distribution and packaging strategy.
-* Dependency management strategy.
-* Minimum supported operating-system versions.
-* Continuous integration strategy.
 
 ## Current Phase
 
-**Phase 0 — Project Definition and Architecture**
+Phase 0 — Project Definition and Architecture
 
 ### Current objectives
 
 1. Define the technical architecture.
-2. Evaluate and confirm the development technology.
+2. Select the development technology.
 3. Define the Core/GUI/backend interfaces.
 4. Define the initial repository structure.
-5. Choose the open-source license.
-6. Define image representation and memory strategy.
-7. Define the build system and dependency strategy.
-8. Establish the development and testing workflow.
-9. Define the initial CI strategy.
-10. Establish minimum supported platform versions.
+5. Establish the development and testing workflow.
+6. Document the project license and licensing strategy.
 
 ## Next Phase
 
-**Phase 1 — Mathematical Model of Chromaticity**
+Phase 1 — Mathematical Model of Chromaticity
 
 The next phase will investigate how chromaticity should be represented and measured for the specific problem of monochrome document photographs and scans.
 
@@ -378,16 +322,6 @@ An algorithm optimized for a small set of document photographs may fail under di
 Adding spatial filters and multiple heuristics too early could make the algorithm difficult to explain, test, and reproduce.
 
 The initial model should therefore remain as simple and measurable as possible.
-
-### Risk 5 — Large-image performance
-
-Document photographs and scans may contain tens or hundreds of millions of pixels.
-
-The application must remain responsive while displaying and processing large images without requiring excessive memory.
-
-### Risk 6 — Cross-platform differences
-
-The application must produce consistent results across Windows, macOS, and Linux while accounting for differences in graphics APIs, image codecs, file systems, and distribution mechanisms.
 
 ## Development Principle
 
@@ -419,7 +353,7 @@ README specification established.
 
 Project Status document created.
 
-Technology direction provisionally established as C++ / Qt 6 / CMake.
+Apache License 2.0 selected as the project license.
 
 Repository structure not yet implemented.
 
