@@ -85,6 +85,41 @@ The application should also be designed so that the same Core Library can later 
 * scripts;
 * other applications.
 
+## Technology Direction
+
+The current recommended technology direction is:
+
+```text
+Programming language:
+C++
+
+GUI framework:
+Qt 6
+
+Build system:
+CMake
+
+Architecture:
+GUI → Core Library → Image Processing Backend
+```
+
+This direction is intended to provide a balance between:
+
+* native application performance;
+* efficient processing of large images;
+* responsive image visualization;
+* Windows support;
+* macOS support;
+* Linux support;
+* long-term maintainability;
+* access to a mature cross-platform GUI framework.
+
+The Core Library should use standard C++ wherever practical and should not depend on Qt-specific GUI concepts unless there is a clear technical reason to do so.
+
+Qt should primarily provide the application and graphical interface infrastructure.
+
+The final technology selection will be formally evaluated during Phase 0.
+
 ## Algorithm — Current Hypothesis
 
 The initial investigation will use a simple chromaticity measure:
@@ -207,18 +242,32 @@ ImageProcessor
 
 Other backends may be added later.
 
+The choice of ImageMagick as the initial backend will be evaluated during Phase 0 based on:
+
+* TIFF support;
+* large-image handling;
+* pixel access;
+* color management;
+* performance;
+* memory usage;
+* licensing;
+* Windows support;
+* macOS support;
+* Linux support;
+* distribution requirements.
+
 ## GUI Technology
 
-The GUI framework has not yet been selected.
+Qt 6 is the current recommended GUI framework.
 
-Candidates currently under consideration include:
+The alternatives considered during Phase 0 include:
 
-* Qt/C++;
-* Qt/Python;
-* Avalonia/.NET;
+* Qt 6 / C++;
+* Qt 6 / Python;
+* Avalonia / .NET;
 * other suitable cross-platform frameworks.
 
-The decision should consider:
+The evaluation should consider:
 
 * large image handling;
 * zoom and pan performance;
@@ -228,7 +277,10 @@ The decision should consider:
 * Linux support;
 * distribution;
 * maintenance;
-* open-source ecosystem.
+* open-source ecosystem;
+* integration with the C++ Core Library.
+
+The current preference is Qt 6 with C++ because the project requires both a responsive image viewer and efficient access to large image data.
 
 ## Current Decisions
 
@@ -248,12 +300,24 @@ ImageMagick may be used as a backend, but it must not define the Core's architec
 
 The application must provide mask and diagnostic views so the user can inspect the algorithm's decisions.
 
+### DEC-005 — Provisional technology direction
+
+The current recommended technology direction is:
+
+```text
+C++
+Qt 6
+CMake
+```
+
+This is a provisional architectural direction and must be formally evaluated and confirmed during Phase 0.
+
 ## Open Decisions
 
 The following decisions remain open:
 
-* Final programming language.
-* GUI framework.
+* Final confirmation of programming language.
+* Final confirmation of GUI framework.
 * Image representation.
 * Color model.
 * Final chromaticity metric.
@@ -264,6 +328,9 @@ The following decisions remain open:
 * Project license.
 * Parameter-file format.
 * Distribution and packaging strategy.
+* Dependency management strategy.
+* Minimum supported operating-system versions.
+* Continuous integration strategy.
 
 ## Current Phase
 
@@ -272,11 +339,15 @@ The following decisions remain open:
 ### Current objectives
 
 1. Define the technical architecture.
-2. Select the development technology.
+2. Evaluate and confirm the development technology.
 3. Define the Core/GUI/backend interfaces.
 4. Define the initial repository structure.
 5. Choose the open-source license.
-6. Establish the development and testing workflow.
+6. Define image representation and memory strategy.
+7. Define the build system and dependency strategy.
+8. Establish the development and testing workflow.
+9. Define the initial CI strategy.
+10. Establish minimum supported platform versions.
 
 ## Next Phase
 
@@ -308,6 +379,16 @@ Adding spatial filters and multiple heuristics too early could make the algorith
 
 The initial model should therefore remain as simple and measurable as possible.
 
+### Risk 5 — Large-image performance
+
+Document photographs and scans may contain tens or hundreds of millions of pixels.
+
+The application must remain responsive while displaying and processing large images without requiring excessive memory.
+
+### Risk 6 — Cross-platform differences
+
+The application must produce consistent results across Windows, macOS, and Linux while accounting for differences in graphics APIs, image codecs, file systems, and distribution mechanisms.
+
 ## Development Principle
 
 The project should follow this cycle:
@@ -337,6 +418,8 @@ Initial project definition established.
 README specification established.
 
 Project Status document created.
+
+Technology direction provisionally established as C++ / Qt 6 / CMake.
 
 Repository structure not yet implemented.
 
