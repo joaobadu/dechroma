@@ -207,28 +207,69 @@ ImageProcessor
 
 Other backends may be added later.
 
+## Technology Direction
+
+The project will use the following technology stack for the initial implementation:
+
+```text
+Programming language:
+C++
+
+GUI framework:
+Qt 6
+
+Build system:
+CMake
+```
+
+### Rationale
+
+C++ is selected as the primary programming language because the application is expected to process large images, perform pixel-level operations, and maintain a responsive graphical interface while working with potentially large document files.
+
+Qt 6 is selected as the GUI framework because it provides mature cross-platform support for Windows, macOS, and Linux, together with the application, windowing, input, graphics, and image-related infrastructure required by the project.
+
+CMake is selected as the build system because it provides cross-platform build configuration and integrates well with C++ development environments and continuous integration systems.
+
+The architecture will keep the Core Library independent from the GUI framework wherever practical.
+
+The intended dependency direction is:
+
+```text
+GUI (Qt 6)
+    │
+    ▼
+Core Library (C++)
+    │
+    ▼
+Image Processing Backend
+    │
+    ▼
+Image I/O
+```
+
+Qt-specific GUI concepts should not be introduced into the Core Library unless technically necessary.
+
+This technology selection is considered an architectural decision for the initial implementation. It may be revisited later if experimental or implementation evidence demonstrates a substantial technical reason to do so.
+
 ## GUI Technology
 
-The GUI framework has not yet been selected.
+Qt 6 is the selected GUI framework for the initial implementation.
 
-Candidates currently under consideration include:
+The selection is based on:
 
-* Qt/C++;
-* Qt/Python;
-* Avalonia/.NET;
-* other suitable cross-platform frameworks.
-
-The decision should consider:
-
-* large image handling;
-* zoom and pan performance;
-* TIFF support;
+* cross-platform support;
+* large-image visualization requirements;
+* zoom and pan requirements;
+* integration with the C++ Core Library;
+* mature desktop application infrastructure;
 * Windows support;
 * macOS support;
 * Linux support;
-* distribution;
-* maintenance;
-* open-source ecosystem.
+* long-term maintainability.
+
+Other frameworks previously considered, including Qt/Python and Avalonia/.NET, are not selected for the initial implementation.
+
+The GUI framework is an implementation layer and must not define the mathematical model or processing logic of Dechroma.
 
 ## Current Decisions
 
@@ -266,12 +307,30 @@ Third-party dependencies and their respective licenses must be documented separa
 
 The project does not currently include a `NOTICE` file. A `NOTICE` file may be added later if required by the project or by third-party components incorporated into the distribution.
 
+### DEC-006 — Initial technology stack
+
+The initial Dechroma implementation will use:
+
+```text
+C++
+Qt 6
+CMake
+```
+
+C++ is the primary implementation language.
+
+Qt 6 is the GUI framework.
+
+CMake is the build system.
+
+The Core Library will remain independent from Qt-specific GUI concepts wherever practical.
+
+This decision applies to the initial implementation and may only be revisited if technical evidence demonstrates a substantial reason to change the technology stack.
+
 ## Open Decisions
 
 The following decisions remain open:
 
-* Final programming language.
-* GUI framework.
 * Image representation.
 * Color model.
 * Final chromaticity metric.
@@ -292,7 +351,7 @@ The following decisions remain open:
 ### Current objectives
 
 1. Define the technical architecture.
-2. Select the development technology.
+2. Define and document the development technology.
 3. Define the Core/GUI/backend interfaces.
 4. Define the initial repository structure.
 5. Establish the development and testing workflow.
