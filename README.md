@@ -56,5 +56,10 @@ The image-processing backend is an implementation detail. The underlying model s
 
 ## License
 
-License information will be added as the project architecture and distribution model are finalized.
+Dechroma is licensed under the Apache License, Version 2.0.
+
+See the `LICENSE` file for the complete license text.
+
+SPDX-License-Identifier: Apache-2.0
+
 
